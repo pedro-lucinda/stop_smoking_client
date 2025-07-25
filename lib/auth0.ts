@@ -14,3 +14,30 @@ export const auth0 = new Auth0Client({
     audience: process.env.AUTH0_AUDIENCE,
   },
 });
+
+import { NextResponse } from "next/server";
+
+interface IHeader {
+  Accept: string;
+  "Content-Type"?: string;
+  Authorization?: string;
+}
+
+interface IResponse {
+  headers: IHeader;
+  accessToken: string;
+}
+
+export async function getAuth(): Promise<IResponse | NextResponse> {
+  const session = await auth0.getSession();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const accessToken = session.tokenSet?.accessToken as string;
+  const headers = {
+    Accept: "*/*",
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+  return { headers, accessToken };
+}
