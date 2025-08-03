@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/modules/navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -12,8 +13,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <main className="flex h-screen flex-col w-full">
+          <Navbar />
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

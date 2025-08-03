@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// services/apiService.ts
 
 import { IMotivation, IPreference, IUser } from "./types";
 
+/**
+ * Typed error for non-2xx responses
+ */
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
@@ -9,7 +13,6 @@ export class ApiError extends Error {
   }
 }
 
-// 3) Central ApiService with dependency inversion & fetch binding fix
 type FetchFn = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 interface ApiServiceOptions {
@@ -21,26 +24,41 @@ export class ApiService {
   private fetchFn: FetchFn;
   private baseUrl: string;
 
-  constructor({ fetchFn, baseUrl = "" }: ApiServiceOptions = {}) {
+  constructor({ fetchFn, baseUrl }: ApiServiceOptions = {}) {
     // Bind fetch to globalThis to avoid "Illegal invocation"
     this.fetchFn = fetchFn ?? ((input, init) => globalThis.fetch(input, init));
+
+    // Determine base URL: use provided or fallback to NEXT_PUBLIC_BASE_URL
+    const envApiBase = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+    const rawBase = baseUrl !== undefined ? baseUrl : envApiBase;
+
     // Normalize baseUrl (no trailing slash)
-    this.baseUrl = baseUrl.replace(/\/+$/, "");
+    this.baseUrl = rawBase.replace(/\/+$/, "");
   }
 
-  /** Generic request: builds URL, sets headers, checks response.ok */
+  /**
+   * Generic request: builds absolute URL, sets headers, checks response.ok
+   */
   private async request<T>(
     path: string,
-    init: Omit<RequestInit, "body"> & { body?: any; signal?: AbortSignal } = {}
+    init: Omit<RequestInit, "body"> & {
+      body?: any;
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    } = {}
   ): Promise<T> {
-    const url = `${this.baseUrl}${path}`;
+    // Build absolute URL if baseUrl is set, otherwise path
+    const url = this.baseUrl ? `${this.baseUrl}${path}` : path;
+    const { body, headers: initHeaders, ...restInit } = init;
+
     const res = await this.fetchFn(url, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        ...initHeaders,
       },
-      ...init,
-      body: init.body != null ? JSON.stringify(init.body) : undefined,
+      ...restInit,
+      body: body != null ? JSON.stringify(body) : undefined,
     });
 
     if (!res.ok) {
@@ -54,59 +72,86 @@ export class ApiService {
   // ——— Preference endpoints ——————————————————————————————
 
   /** GET  /api/preference */
-  async getPreference(signal?: AbortSignal): Promise<IPreference> {
-    return this.request<IPreference>("/api/preference", { signal });
+  async getPreference(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IPreference> {
+    return this.request<IPreference>("/api/preference", init ?? {});
   }
 
   /** POST /api/preference */
   async createPreference(
     data: Omit<IPreference, "id">,
-    signal?: AbortSignal
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
   ): Promise<IPreference> {
     return this.request<IPreference>("/api/preference", {
       method: "POST",
       body: data,
-      signal,
+      ...(init ?? {}),
     });
   }
 
   /** PATCH /api/preference */
   async updatePreference(
     data: Partial<Omit<IPreference, "id">>,
-    signal?: AbortSignal
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
   ): Promise<IPreference> {
     return this.request<IPreference>("/api/preference", {
       method: "PATCH",
       body: data,
-      signal,
+      ...(init ?? {}),
     });
   }
 
   // ——— User endpoints ——————————————————————————————————
 
   /** GET  /api/user */
-  async getUser(signal?: AbortSignal): Promise<IUser> {
-    return this.request<IUser>("/api/user", { signal });
+  async getUser(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IUser> {
+    return this.request<IUser>("/api/user", init ?? {});
   }
 
   /** PATCH /api/user */
   async updateUser(
     data: Partial<Omit<IUser, "id">>,
-    signal?: AbortSignal
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
   ): Promise<IUser> {
     return this.request<IUser>("/api/user", {
       method: "PATCH",
       body: data,
-      signal,
+      ...(init ?? {}),
     });
   }
 
   // ——— Daily Motivation endpoint ——————————————————————————————————
 
   /** GET /api/daily-motivation */
-  async getDailyMotivation(signal?: AbortSignal): Promise<IMotivation> {
-    return this.request<IMotivation>("/api/daily-motivation", { signal });
+  async getDailyMotivation(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IMotivation> {
+    return this.request<IMotivation>("/api/daily-motivation", init ?? {});
   }
 }
 
-export const apiService = new ApiService({});
+/**
+ * Export a singleton for easy imports
+ */
+export const apiService = new ApiService();
