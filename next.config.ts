@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       "3.googleusercontent.com",
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com",
+      "s.gravatar.com",
     ],
   },
 };

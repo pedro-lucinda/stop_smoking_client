@@ -10,14 +10,11 @@ export async function GET() {
   const { accessToken } = auth;
 
   try {
-    const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const upstream = await fetch(`${process.env.API_BASE_URL}/user/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     const data = await upstream.json();
     return NextResponse.json(data, { status: upstream.status });
   } catch (e: any) {
@@ -32,17 +29,14 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const upstream = await fetch(`${process.env.API_BASE_URL}/user/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
     const data = await upstream.json();
     return NextResponse.json(data, { status: upstream.status });
   } catch (e: any) {

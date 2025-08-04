@@ -31,3 +31,16 @@ export interface IMotivation {
   ideas: string;
   recommendations: string;
 }
+
+export interface IMotivation {
+  id: number;
+  user_id: number;
+  date: string; // YYYY-MM-DD
+  progress: string;
+  motivation: string;
+  cravings: string;
+  ideas: string;
+  recommendations: string;
+  created_at: string; // ISO timestamp
+  updated_at: string; // ISO timestamp
+}

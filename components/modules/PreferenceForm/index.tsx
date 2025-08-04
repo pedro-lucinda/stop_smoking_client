@@ -42,10 +42,10 @@ const LANGUAGE_OPTIONS = [
 ];
 
 interface PreferencesFormProps {
-  pref?: IPreference | null;
+  pref?: IPreference;
 }
 
-export function PreferencesForm({ pref = null }: PreferencesFormProps) {
+export function PreferencesForm({ pref }: PreferencesFormProps) {
   const router = useRouter();
 
   // Initialize state from pref
@@ -63,20 +63,25 @@ export function PreferencesForm({ pref = null }: PreferencesFormProps) {
       is_completed: g.is_completed,
     })) ?? null
   );
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleAddGoal = () =>
-    setGoals((prev) => [...prev, { description: "", is_completed: false }]);
+    setGoals((prev) =>
+      prev
+        ? [...prev, { description: "", is_completed: false }]
+        : [{ description: "", is_completed: false }]
+    );
   const handleRemoveGoal = (index: number) =>
-    setGoals((prev) => prev.filter((_, i) => i !== index));
+    setGoals((prev) => (prev ? prev.filter((_, i) => i !== index) : prev));
   const handleGoalChange = (
     index: number,
     field: "description" | "is_completed",
     value: string | boolean
   ) => {
     setGoals((prev) =>
-      prev.map((g, i) => (i === index ? { ...g, [field]: value } : g))
+      prev
+        ? prev.map((g, i) => (i === index ? { ...g, [field]: value } : g))
+        : prev
     );
   };
 
@@ -85,10 +90,21 @@ export function PreferencesForm({ pref = null }: PreferencesFormProps) {
     setError(null);
 
     try {
-      const payload = { reason, quit_date: quitDate, language, goals };
-      await apiService.updatePreference(payload, {
-        headers: { cookie: document.cookie },
-      });
+      const payload = {
+        reason,
+        quit_date: quitDate,
+        language,
+        goals: goals ?? undefined,
+      };
+      if (pref) {
+        await apiService.updatePreference(payload, {
+          headers: { cookie: document.cookie },
+        });
+      } else {
+        await apiService.createPreference(payload as IPreference, {
+          headers: { cookie: document.cookie },
+        });
+      }
       router.refresh();
     } catch (err: any) {
       setError(err.message || "Failed to save preferences.");
@@ -168,7 +184,7 @@ export function PreferencesForm({ pref = null }: PreferencesFormProps) {
               </Button>
             </div>
             <div className="space-y-3">
-              {goals.map((goal, index) => (
+              {goals?.map((goal, index) => (
                 <Card key={index} className="p-3">
                   <div className="flex items-center justify-between gap-2">
                     <Textarea

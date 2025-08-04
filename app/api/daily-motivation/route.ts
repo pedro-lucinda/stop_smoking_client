@@ -11,7 +11,7 @@ export async function GET() {
 
   try {
     const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/motivation/detailed-text`,
+      `${process.env.API_BASE_URL}/motivation/detailed-text`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

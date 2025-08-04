@@ -10,12 +10,9 @@ export async function GET() {
   const accessToken = auth.accessToken;
 
   try {
-    const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/preference/`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    const upstream = await fetch(`${process.env.API_BASE_URL}/preference/`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
     const data = await upstream.json();
     return NextResponse.json(data, { status: upstream.status });
@@ -32,17 +29,14 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/preference/`,
-      {
-        method: "POST",
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const upstream = await fetch(`${process.env.API_BASE_URL}/preference/`, {
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
     const data = await upstream.json();
     return NextResponse.json(data, { status: upstream.status });
@@ -62,17 +56,14 @@ export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const upstream = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/preference/`,
-      {
-        method: "PATCH",
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const upstream = await fetch(`${process.env.API_BASE_URL}/preference/`, {
+      method: "PATCH",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
     const data = await upstream.json();
     return NextResponse.json(data, { status: upstream.status });
