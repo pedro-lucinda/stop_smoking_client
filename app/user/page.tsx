@@ -9,16 +9,16 @@ export default async function UserPage() {
   let motivation: IMotivation | null = null;
   const cookiesData = await cookies();
   const cookieHeader = cookiesData.toString();
-  let pref = null;
+  // let pref = null;
   try {
     motivation = await apiService.getDailyMotivation({
       headers: { Cookie: cookieHeader },
       cache: "no-store",
     });
-    pref = await apiService.getPreference({
-      headers: { Cookie: cookieHeader },
-      cache: "no-store",
-    });
+    // pref = await apiService.getPreference({
+    //   headers: { Cookie: cookieHeader },
+    //   cache: "no-store",
+    // });
   } catch (err: any) {
     console.error("Failed to fetch daily motivation:", err);
   }

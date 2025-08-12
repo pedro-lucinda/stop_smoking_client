@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 import { Spinner } from "@/components/ui/kibo-ui/spinner";
 import { useCallback, useEffect, useState } from "react";
