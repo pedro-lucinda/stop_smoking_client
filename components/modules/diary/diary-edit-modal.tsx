@@ -28,7 +28,7 @@ export default function DiaryEditPopover({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
-
+  console.log({ diary });
   async function save(payload: DiaryUpdate) {
     setPending(true);
 
@@ -52,6 +52,7 @@ export default function DiaryEditPopover({
           onClose={() => setOpen(false)}
           onSave={save as any}
           disabled={pending}
+          diary={diary}
         />
       </PopoverContent>
     </Popover>
