@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser} from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export function UserButton() {
   const { user } = useUser();
 
   return (
-    <>
+    <div className="w-[150px] mt-auto">
       {!user ? (
         <div className="flex flex-col">
           <Link
@@ -31,7 +31,7 @@ export function UserButton() {
               className="rounded-full border-2 border-blue-500"
             />
           </PopoverTrigger>
-          <PopoverContent className="w-[150px] flex flex-col ">
+          <PopoverContent className=" w-[150px] flex flex-col">
             <div className="flex flex-col">
               <Link
                 href="/auth/logout"
@@ -44,6 +44,6 @@ export function UserButton() {
           </PopoverContent>
         </Popover>
       )}
-    </>
+    </div>
   );
 }

@@ -5,9 +5,9 @@ import { cookies } from "next/headers";
 import { apiService } from "services/api";
 import { IMotivation } from "services/api/types";
 
-export default async function userPage() {
+export default async function UserPage() {
   let motivation: IMotivation | null = null;
-  const cookieHeader = cookies().toString();
+  const cookieHeader = await cookies().toString();
   let pref = null;
   try {
     motivation = await apiService.getDailyMotivation({
@@ -26,7 +26,7 @@ export default async function userPage() {
     return <PreferencesForm />;
   }
   return (
-    <Card className="max-w-2xl mx-auto my-10">
+    <Card className=" overflow-y-auto">
       <CardHeader>
         <CardTitle className="font-bold text-lg">
           Daily Motivation — {motivation.date}

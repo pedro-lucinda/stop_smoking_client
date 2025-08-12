@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // services/apiService.ts
 
-import { IMotivation, IPreference, IUser } from "./types";
+import {
+  DiaryCreate,
+  DiaryUpdate,
+  IDiary,
+  IDiaryList,
+  IMotivation,
+  IPreference,
+  IUser,
+} from "./types";
 
 /**
  * Typed error for non-2xx responses
@@ -19,6 +27,15 @@ interface ApiServiceOptions {
   fetchFn?: FetchFn;
   baseUrl?: string;
 }
+
+const qs = (o: Record<string, unknown> = {}) => {
+  const s = new URLSearchParams();
+  Object.entries(o).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") s.set(k, String(v));
+  });
+  const str = s.toString();
+  return str ? `?${str}` : "";
+};
 
 export class ApiService {
   private fetchFn: FetchFn;
@@ -50,21 +67,28 @@ export class ApiService {
     // Build absolute URL if baseUrl is set, otherwise path
     const url = this.baseUrl ? `${this.baseUrl}${path}` : path;
     const { body, headers: initHeaders, ...restInit } = init;
+    const hasBody = body !== undefined && body !== null;
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+      ...(initHeaders ?? {}),
+    };
+    if (hasBody) headers["Content-Type"] = "application/json";
 
     const res = await this.fetchFn(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...initHeaders,
-      },
       ...restInit,
-      body: body != null ? JSON.stringify(body) : undefined,
+      headers,
+      body: hasBody ? JSON.stringify(body) : undefined,
     });
 
     if (!res.ok) {
       const text = await res.text();
       throw new ApiError(res.status, text);
     }
+
+    // handle 204 / empty bodies safely
+    if (res.status === 204) return undefined as T;
+    const ct = res.headers.get("content-type") || "";
+    if (!ct.includes("application/json")) return undefined as T;
 
     return (await res.json()) as T;
   }
@@ -148,6 +172,83 @@ export class ApiService {
     }
   ): Promise<IMotivation> {
     return this.request<IMotivation>("/api/daily-motivation", init ?? {});
+  }
+
+  // --- DIARY ---------------------------------------------------
+  async getDiaries(
+    params: { date?: string; skip?: number; limit?: number } = {},
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IDiaryList> {
+    console.log("URL to next route ------ ", `/api/diary${qs(params)}`);
+    return this.request<IDiaryList>(`/api/diary${qs(params)}`, {
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** GET /api/diary/:id */
+  async getDiary(
+    diaryId: number | string,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IDiary> {
+    return this.request<IDiary>(`/api/diary/${diaryId}`, {
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** POST /api/diary */
+  async createDiary(
+    data: DiaryCreate,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IDiary> {
+    return this.request<IDiary>("/api/diary", {
+      method: "POST",
+      body: data,
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** PATCH /api/diary/:id */
+  async updateDiary(
+    diaryId: number | string,
+    data: DiaryUpdate,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IDiary> {
+    return this.request<IDiary>(`/api/diary/${diaryId}`, {
+      method: "PATCH",
+      body: data,
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** DELETE /api/diary/:id */
+  async deleteDiary(
+    diaryId: number | string,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<void> {
+    await this.request<void>(`/api/diary/${diaryId}`, {
+      method: "DELETE",
+      credentials: "include",
+      ...(init ?? {}),
+    });
   }
 }
 

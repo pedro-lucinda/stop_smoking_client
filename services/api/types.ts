@@ -44,3 +44,29 @@ export interface IMotivation {
   created_at: string; // ISO timestamp
   updated_at: string; // ISO timestamp
 }
+
+export interface IDiary {
+  id: number;
+  date: string; // YYYY-MM-DD
+  notes?: string;
+  have_smoked?: boolean;
+  craving_range?: number;
+  number_of_cravings?: number;
+  number_of_cigarets_smoked?: number;
+}
+
+export interface IDiaryList {
+  diaries: IDiary[];
+  total: number;
+}
+
+export type DiaryCreate = {
+  date: string;
+  notes?: string;
+  have_smoked?: boolean;
+  craving_range?: number;
+  number_of_cravings?: number;
+  number_of_cigarets_smoked?: number;
+};
+
+export type DiaryUpdate = Partial<DiaryCreate>;
