@@ -2,8 +2,12 @@
 // services/apiService.ts
 
 import {
+  CravingCreate,
   DiaryCreate,
   DiaryUpdate,
+  IBadgeList,
+  ICraving,
+  ICravingList,
   IDiary,
   IDiaryList,
   IMotivation,
@@ -246,6 +250,95 @@ export class ApiService {
   ): Promise<void> {
     await this.request<void>(`/api/diary/${diaryId}`, {
       method: "DELETE",
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+  // --- CRAVINGS ------------------------------------------------
+  async getCravings(
+    params: { day?: string; skip?: number; limit?: number } = {},
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<ICravingList> {
+    return this.request<ICravingList>(`/api/cravings${qs(params)}`, {
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** GET /api/cravings/:id */
+  async getCraving(
+    cravingId: number | string,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<ICraving> {
+    return this.request<ICraving>(`/api/cravings/${cravingId}`, {
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** POST /api/cravings */
+  async createCraving(
+    data: CravingCreate,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<ICraving> {
+    return this.request<ICraving>("/api/cravings", {
+      method: "POST",
+      body: data,
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** PUT /api/cravings/:id */
+  async updateCraving(
+    cravingId: number | string,
+    data: CravingCreate, // backend expects full payload
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<ICraving> {
+    return this.request<ICraving>(`/api/cravings/${cravingId}`, {
+      method: "PUT",
+      body: data,
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  /** DELETE /api/cravings/:id */
+  async deleteCraving(
+    cravingId: number | string,
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<void> {
+    await this.request<void>(`/api/cravings/${cravingId}`, {
+      method: "DELETE",
+      credentials: "include",
+      ...(init ?? {}),
+    });
+  }
+
+  // --- BADGES --------------------------------------------------
+  async getMyBadges(
+    params: { skip?: number; limit?: number } = {},
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IBadgeList> {
+    return this.request<IBadgeList>(`/api/badges${qs(params)}`, {
       credentials: "include",
       ...(init ?? {}),
     });

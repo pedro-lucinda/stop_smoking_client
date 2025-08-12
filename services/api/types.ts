@@ -70,3 +70,40 @@ export type DiaryCreate = {
 };
 
 export type DiaryUpdate = Partial<DiaryCreate>;
+
+export interface ICraving {
+  id: number;
+  date: string; // 'YYYY-MM-DD'
+  comments: string;
+  have_smoked: boolean;
+  desire_range: number | null;
+  number_of_cigarets_smoked: number | null;
+  feeling: string | null;
+  activity: string | null;
+  company: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export type CravingCreate = {
+  date: string;
+  comments: string;
+  have_smoked: boolean;
+  desire_range?: number | null;
+  number_of_cigarets_smoked?: number | null;
+  feeling?: string | null;
+  activity?: string | null;
+  company?: string | null;
+};
+
+export type ICravingList = { cravings: ICraving[]; total: number };
+
+export interface IBadge {
+  id: number;
+  name: string;
+  description: string | null;
+  icon?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+export type IBadgeList = { badges: IBadge[]; total: number };
