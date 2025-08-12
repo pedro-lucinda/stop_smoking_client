@@ -7,7 +7,8 @@ import { IMotivation } from "services/api/types";
 
 export default async function UserPage() {
   let motivation: IMotivation | null = null;
-  const cookieHeader = await cookies().toString();
+  const cookiesData = await cookies();
+  const cookieHeader = cookiesData.toString();
   let pref = null;
   try {
     motivation = await apiService.getDailyMotivation({
