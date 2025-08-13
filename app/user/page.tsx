@@ -11,7 +11,6 @@ import { IBadge, IBadgeList, IMotivation } from "services/api/types";
 export default async function UserPage() {
   let motivation: IMotivation | null = null;
   let badges: IBadge[] = [];
-  let badgesTotal = 0;
 
   const cookiesData = await cookies();
   const cookieHeader = cookiesData.toString();
@@ -37,7 +36,6 @@ export default async function UserPage() {
       }
     );
     badges = res.badges ?? [];
-    badgesTotal = res.total ?? 0;
   } catch (err: any) {
     console.error("Failed to fetch badges:", err);
   }

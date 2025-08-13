@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Award } from "lucide-react";
-import * as React from "react";
 import type { IBadge } from "services/api/types";
 
 function fmt(d?: string) {
@@ -40,9 +39,6 @@ export function BadgeItem({
   onClick?: () => void;
 }) {
   const src = badge.image ?? badge.icon ?? null;
-  const initial = badge.name?.slice(0, 2).toUpperCase() || "BD";
-  const [imgOk, setImgOk] = React.useState(true);
-  const showImg = !!src && imgOk;
 
   const body = (
     <button
@@ -56,15 +52,11 @@ export function BadgeItem({
       aria-label={badge.name}
     >
       <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-muted grid place-items-center">
-        {showImg ? (
-          <img
-            src={src as string}
-            alt={badge.name}
-            className="object-cover w-10 h-10"
-          />
-        ) : (
-          <span className="text-[10px] font-bold tracking-wide">{initial}</span>
-        )}
+        <img
+          src={src as string}
+          alt={badge.name}
+          className="object-cover w-10 h-10"
+        />
       </div>
 
       <div className="min-w-0">
