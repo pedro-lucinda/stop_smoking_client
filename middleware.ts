@@ -1,30 +1,40 @@
+// middleware.ts
 import { NextResponse, type NextRequest } from "next/server";
-import { auth0 } from "./libs/auth0";
+import { auth0 } from "./lib/auth0";
 
 export async function middleware(request: NextRequest) {
-  const authRes = await auth0.middleware(request)
-  if (request.nextUrl.pathname.startsWith('/auth') || request.nextUrl.pathname === "/") {
-    return authRes
+  const { pathname } = request.nextUrl;
+
+  // Bypass API and framework assets
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/.well-known") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/robots.txt"
+  ) {
+    return NextResponse.next();
   }
 
-  const session = await auth0.getSession(request)
+  // Let SDK handle /auth and the home page
+  if (pathname.startsWith("/auth") || pathname === "/") {
+    return auth0.middleware(request);
+  }
+
+  // Protect pages
+  const session = await auth0.getSession(request);
   if (!session) {
-    console.log('User not authenticated, redirecting to login page')
-    // user is not authenticated, redirect to login page
-    return NextResponse.redirect(new URL('/auth/login', request.nextUrl.origin))
+    const loginUrl = new URL("/auth/login", request.nextUrl.origin);
+    loginUrl.searchParams.set("returnTo", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
-  return authRes
+  return auth0.middleware(request);
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.well-known).*)",
   ],
 };

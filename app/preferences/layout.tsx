@@ -5,10 +5,10 @@ export const metadata: Metadata = {
   description: "Protected Layout",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return <main className="p-10 container mx-auto">{children}</main>;
 }
