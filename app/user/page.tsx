@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BadgesGrid } from "@/components/modules/badges/badges-grid";
+import { MotivationCarousel } from "@/components/modules/motivation/motivation-carousel";
 import { PreferencesForm } from "@/components/modules/PreferenceForm";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Settings2 } from "lucide-react";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { apiService } from "services/api";
 import { IBadge, IBadgeList, IMotivation } from "services/api/types";
-
 export default async function UserPage() {
   let motivation: IMotivation | null = null;
   let badges: IBadge[] = [];
@@ -44,44 +46,33 @@ export default async function UserPage() {
     return <PreferencesForm />;
   }
 
+  const topics = [
+    { title: "Progress", body: motivation.progress },
+    { title: "Motivation", body: motivation.motivation },
+    { title: "Cravings", body: motivation.cravings },
+    { title: "Ideas", body: motivation.ideas },
+    { title: "Recommendations", body: motivation.recommendations },
+  ];
+
   return (
-    <Card className="overflow-y-auto">
-      <CardHeader>
-        <CardTitle className="font-bold text-lg">
-          Daily Motivation — {motivation.date}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <section>
-          <h3 className="font-bold text-md">Progress</h3>
-          <p>{motivation.progress}</p>
-        </section>
+    <div className="flex flex-col overflow-y-auto gap-5">
+      <Link href="/preferences" className="ml-auto">
+        <Button variant="outline" size="sm">
+          <Settings2 className="h-4 w-4 mr-2" />
+          Edit preferences
+        </Button>
+      </Link>
+      <section className="flex gap-2 flex-col justify-between">
+        <h3 className="font-bold text-lg">Badges</h3>
+        <BadgesGrid badges={badges} />
+      </section>
 
-        <section>
-          <h3 className="font-bold text-md">Motivation</h3>
-          <p>{motivation.motivation}</p>
-        </section>
-
-        <section>
-          <h3 className="font-bold text-md">Cravings</h3>
-          <p>{motivation.cravings}</p>
-        </section>
-
-        <section>
-          <h3 className="font-bold text-md">Ideas</h3>
-          <p>{motivation.ideas}</p>
-        </section>
-
-        <section>
-          <h3 className="font-bold text-md">Recommendations</h3>
-          <p>{motivation.recommendations}</p>
-        </section>
-
-        <section>
-          <h3 className="font-bold text-md">Badges</h3>
-          <BadgesGrid badges={badges} showDate />
-        </section>
-      </CardContent>
-    </Card>
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="font-bold text-lg">Daily Feed</h2>
+        </div>
+        <MotivationCarousel items={topics} />
+      </section>
+    </div>
   );
 }

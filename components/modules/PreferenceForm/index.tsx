@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Spinner } from "@/components/ui/kibo-ui/spinner";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -55,7 +56,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
   const [language, setLanguage] = useState<string>(
     pref?.language || LANGUAGE_OPTIONS[0].value
   );
-
+  const [isLoading, setIsLoading] = useState(false);
   const [goals, setGoals] = useState<
     { description: string; is_completed: boolean }[] | null
   >(
@@ -89,7 +90,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
+    setIsLoading(true);
     try {
       const payload = {
         reason,
@@ -106,9 +107,11 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
           headers: { cookie: document.cookie },
         });
       }
-      router.refresh();
+      router.push("/user");
     } catch (err: any) {
       setError(err.message || "Failed to save preferences.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -127,6 +130,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="e.g. To improve my health and save money"
+              disabled={isLoading}
             />
           </div>
 
@@ -134,8 +138,12 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
           <div className="flex flex-col space-y-1">
             <Label htmlFor="quit_date">Planned Quit Date</Label>
             <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-[150px] justify-start">
+              <PopoverTrigger asChild disabled={isLoading}>
+                <Button
+                  variant="outline"
+                  className="w-[200px] justify-start"
+                  disabled={isLoading}
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {quitDate
                     ? format(parse(quitDate, "yyyy-MM-dd", new Date()), "PPP")
@@ -162,8 +170,12 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
           {/* Language */}
           <div className="flex flex-col space-y-1">
             <Label htmlFor="language">Preferred Language</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-[150px]">
+            <Select
+              value={language}
+              onValueChange={setLanguage}
+              disabled={isLoading}
+            >
+              <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent>
@@ -180,7 +192,12 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>Goals & Milestones</Label>
-              <Button size="sm" type="button" onClick={handleAddGoal}>
+              <Button
+                size="sm"
+                type="button"
+                onClick={handleAddGoal}
+                disabled={isLoading}
+              >
                 + Add Goal
               </Button>
             </div>
@@ -195,6 +212,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
                         handleGoalChange(index, "description", e.target.value)
                       }
                       className="flex-1"
+                      disabled={isLoading}
                     />
                     <div className="flex items-center space-x-2 ml-4">
                       <Checkbox
@@ -203,6 +221,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
                         onCheckedChange={(checked) =>
                           handleGoalChange(index, "is_completed", checked)
                         }
+                        disabled={isLoading}
                       />
                       <Label htmlFor={`goal-${index}-completed`}>
                         Completed
@@ -213,6 +232,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
                       variant="destructive"
                       size="icon"
                       onClick={() => handleRemoveGoal(index)}
+                      disabled={isLoading}
                     >
                       <X className="h-4 w-4" />
                     </Button>
@@ -226,7 +246,9 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
         </CardContent>
         <CardFooter>
           <div className="flex justify-end">
-            <Button type="submit">Save Preferences</Button>
+            <Button type="submit" disabled={isLoading}>
+              Save Preferences {isLoading && <Spinner variant="ring" />}
+            </Button>
           </div>
         </CardFooter>
       </Card>
