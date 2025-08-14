@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// services/apiService.ts
 
 import {
   CravingCreate,
@@ -10,6 +9,7 @@ import {
   ICravingList,
   IDiary,
   IDiaryList,
+  IHealth,
   IMotivation,
   IPreference,
   IUser,
@@ -74,7 +74,7 @@ export class ApiService {
     const hasBody = body !== undefined && body !== null;
     const headers: Record<string, string> = {
       Accept: "application/json",
-      ...(initHeaders ?? {}),
+      ...(typeof initHeaders === "object" && !Array.isArray(initHeaders) ? initHeaders : {}),
     };
     if (hasBody) headers["Content-Type"] = "application/json";
 
@@ -342,6 +342,17 @@ export class ApiService {
       credentials: "include",
       ...(init ?? {}),
     });
+  }
+
+  // ---- HEALTH ----------------------------------------------
+  /** GET /api/health */
+  async getHealth(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<IHealth> {
+    return this.request<IHealth>("/api/health", init ?? {});
   }
 }
 

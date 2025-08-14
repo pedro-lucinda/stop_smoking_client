@@ -1,45 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BadgesGrid } from "@/components/modules/badges/badges-grid";
+import { HealthMetricsList } from "@/components/modules/health/health-metrics-list";
 import { MotivationCarousel } from "@/components/modules/motivation/motivation-carousel";
 import { PreferencesForm } from "@/components/modules/PreferenceForm";
 import { Button } from "@/components/ui/button";
 import { Settings2 } from "lucide-react";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { apiService } from "services/api";
-import { IBadge, IBadgeList, IMotivation } from "services/api/types";
+import { serverFetch } from "services/api/server-fetch";
+import { IBadgeList, IHealth, IMotivation } from "services/api/types";
 export default async function UserPage() {
-  let motivation: IMotivation | null = null;
-  let badges: IBadge[] = [];
-
-  const cookiesData = await cookies();
-  const cookieHeader = cookiesData.toString();
-
-  try {
-    motivation = await apiService.getDailyMotivation({
-      headers: { Cookie: cookieHeader },
-      cache: "no-store",
-    });
-  } catch (err: any) {
-    console.error("Failed to fetch daily motivation:", err);
-  }
-
-  try {
-    const res: IBadgeList = await apiService.getMyBadges(
-      {
-        skip: 0,
-        limit: 10,
-      },
-      {
-        headers: { Cookie: cookieHeader },
-        cache: "no-store",
-      }
-    );
-    badges = res.badges ?? [];
-  } catch (err: any) {
-    console.error("Failed to fetch badges:", err);
-  }
-
+  const motivation = await serverFetch<IMotivation>(
+    "/motivation/detailed-text"
+  );
+  const { badges } = await serverFetch<IBadgeList>("/badges/me");
+  const health = await serverFetch<IHealth>("/health");
+  console.log({ health });
   if (!motivation) {
     return <PreferencesForm />;
   }
@@ -60,6 +35,7 @@ export default async function UserPage() {
           Edit preferences
         </Button>
       </Link>
+      <HealthMetricsList data={health} />
       <section className="flex gap-2 flex-col justify-between">
         <h3 className="font-bold text-lg">Badges</h3>
         <BadgesGrid badges={badges} />

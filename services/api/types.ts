@@ -107,3 +107,21 @@ export interface IBadge {
   updated_at?: string;
 }
 export type IBadgeList = { badges: IBadge[]; total: number };
+
+export interface IHealth {
+  date: string; // ISO date
+  pulse_rate: number;
+  oxygen_levels: number;
+  carbon_monoxide_level: number;
+  nicotine_expelled: number;
+  taste_and_smell: number;
+  breathing: number;
+  energy_levels: number;
+  circulation: number;
+  gum_texture: number;
+  immunity_and_lung_function: number;
+  reduced_risk_of_heart_disease: number;
+  decreased_risk_of_lung_cancer: number;
+  decreased_risk_of_heart_attack: number;
+  life_regained_in_hours: number;
+}
