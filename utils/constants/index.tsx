@@ -1,6 +1,15 @@
 import { SidebarNavItem } from "@/components/modules/Sidebar";
 import { Angry, Book, MessageCircle, User } from "lucide-react";
 
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+export const THREAD_EP = `${API_BASE}/chat/thread`;
+export const STREAM_EP = (threadId: string) =>
+  `${API_BASE}/chat/threads/${threadId}/stream`;
+
+export const TOOL_LABEL: Record<string, string> = {
+  tavily_search: "Search",
+};
+
 export const SIDEBAR_MENU_ITEMS: SidebarNavItem[] = [
   {
     id: 1,

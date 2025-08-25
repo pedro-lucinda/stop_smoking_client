@@ -9,16 +9,13 @@ export function SidebarHeader() {
   const setSidebarOpen = useAppStore((state) => state.setSidebarOpen);
 
   return (
-    <div
-      className="flex flex-col items-center  h-[98px] p-5 gap-2"
-      onClick={() => router.push("/user")}
-    >
+    <div className="flex flex-col items-center  h-[98px] p-5 gap-2">
       {isSidebarOpen ? (
-        <div>
+        <div onClick={() => router.push("/user")}>
           <h3 className="font-bold text-md">Stop Smok buddy</h3>
         </div>
       ) : (
-        <div>
+        <div onClick={() => router.push("/user")}>
           <h3 className="font-bold text-md">SSB</h3>
         </div>
       )}

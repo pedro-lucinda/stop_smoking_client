@@ -74,7 +74,9 @@ export class ApiService {
     const hasBody = body !== undefined && body !== null;
     const headers: Record<string, string> = {
       Accept: "application/json",
-      ...(typeof initHeaders === "object" && !Array.isArray(initHeaders) ? initHeaders : {}),
+      ...(typeof initHeaders === "object" && !Array.isArray(initHeaders)
+        ? initHeaders
+        : {}),
     };
     if (hasBody) headers["Content-Type"] = "application/json";
 
@@ -353,6 +355,16 @@ export class ApiService {
     }
   ): Promise<IHealth> {
     return this.request<IHealth>("/api/health", init ?? {});
+  }
+
+  // AUTH
+  async getAccessToken(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<any> {
+    return this.request<string>("/api/token", init ?? {});
   }
 }
 

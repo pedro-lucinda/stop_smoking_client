@@ -73,7 +73,7 @@ export type DiaryUpdate = Partial<DiaryCreate>;
 
 export interface ICraving {
   id: number;
-  date: string; // 'YYYY-MM-DD'
+  date: string; // YYYY-MM-DD
   comments: string;
   have_smoked: boolean;
   desire_range: number | null;
@@ -106,6 +106,7 @@ export interface IBadge {
   created_at?: string;
   updated_at?: string;
 }
+
 export type IBadgeList = { badges: IBadge[]; total: number };
 
 export interface IHealth {
@@ -124,4 +125,66 @@ export interface IHealth {
   decreased_risk_of_lung_cancer: number;
   decreased_risk_of_heart_attack: number;
   life_regained_in_hours: number;
+}
+
+/* ===== Chat API types ===== */
+
+export interface ThreadOut {
+  thread_id: string;
+}
+
+export type ChatEvent =
+  | TokenEvent
+  | ToolCallEvent
+  | ToolResultEvent
+  | ToolErrorEvent;
+
+export interface TokenEvent {
+  event: "token";
+  text: string;
+}
+
+export interface ToolCallEvent {
+  event: "tool_call";
+  id: string;
+  tool: string;
+  args: unknown;
+}
+
+export interface ToolResultEvent {
+  event: "tool_result";
+  id: string;
+  tool: string;
+  content: unknown;
+}
+
+export interface ToolErrorEvent {
+  event: "tool_error";
+  id: string;
+  tool?: string;
+  error: string;
+}
+
+export type ToolState =
+  | "input-streaming"
+  | "input-available"
+  | "output-available"
+  | "output-error";
+
+export interface AssistantTool {
+  id: string;
+  name: string;
+  state: ToolState;
+  input?: unknown;
+  output?: unknown;
+  errorText?: string;
+}
+
+type Role = "user" | "assistant";
+
+export interface ChatMessage {
+  id: string;
+  role: Role;
+  content: string;
+  tools?: AssistantTool[];
 }
