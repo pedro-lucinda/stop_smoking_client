@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { ChatInput } from "@/components/modules/chat/input";
@@ -132,7 +134,6 @@ export default function ChatPage() {
             handleSend();
           }}
           disabled={isGenerating}
-
         />
       </div>
     </div>

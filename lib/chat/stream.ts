@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { ChatEvent, ChatMessage } from "services/api/types";
 
 export function toHeaderObj(h?: HeadersInit): Record<string, string> {
