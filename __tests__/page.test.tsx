@@ -10,6 +10,6 @@ import Home from "../app/page";
 describe("Home Page", () => {
   it("renders a heading", () => {
     render(<Home />);
-    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toBeDefined();
   });
 });

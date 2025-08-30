@@ -17,7 +17,6 @@ type Props = {
   c: ICraving;
   date: string;
   handleUpdate: (id: number, payload: CravingCreate) => Promise<void>;
-  handleDelete: (id: number) => Promise<void>;
 };
 
 export function EditCravingModal({
@@ -26,7 +25,6 @@ export function EditCravingModal({
   c,
   date,
   handleUpdate,
-  handleDelete,
 }: Props) {
   const [open, setOpen] = useState(false);
 

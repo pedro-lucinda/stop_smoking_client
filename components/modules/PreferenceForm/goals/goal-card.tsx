@@ -15,7 +15,6 @@ interface Props {
   handleRemoveGoal: (index: number) => void;
   isLoading: boolean;
   index: number;
-  isCompleted: boolean;
 }
 
 export function GoalCard({
@@ -24,7 +23,6 @@ export function GoalCard({
   handleRemoveGoal,
   isLoading,
   index,
-  isCompleted,
 }: Props) {
   return (
     <div className="flex items-center justify-between gap-2">

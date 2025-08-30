@@ -47,7 +47,6 @@ export function CravingCard({
               c={craving}
               date={date}
               handleUpdate={handleUpdate}
-              handleDelete={handleDelete}
             />
             <Button
               size="sm"
