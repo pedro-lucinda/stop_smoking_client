@@ -41,12 +41,22 @@ export default function DiaryContainer() {
   }, [date, fetchDiaryByDate]);
 
   return (
-    <div className="flex flex-col gap-10 w-full h-full">
+    <div className="flex flex-col gap-2 w-full h-full ">
+      <section className="flex flex-col gap-1">
+        <h1 className=" font-bold text-center text-2xl">Diary</h1>
+        <p className="text-center text-sm text-green-100">
+          Here you can write your diary entry for the day.
+          <br />
+          Try to express your thoughts and feelings through the process of stop
+          smoking.
+        </p>
+      </section>
       <DiaryCalendar selected={date} onSelect={setDate} />
+
       {loading ? (
         <Spinner variant="ring" className="w-6 h-6 mx-auto" />
       ) : (
-        <div className="flex w-full h-full">
+        <div className="flex w-full max-w-2xl  mx-auto  h-full">
           <DiaryEntry
             key={currentDairy?.id ?? date}
             diary={currentDairy}

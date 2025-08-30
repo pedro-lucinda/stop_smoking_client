@@ -14,7 +14,7 @@ export const SIDEBAR_MENU_ITEMS: SidebarNavItem[] = [
   {
     id: 1,
     title: "Home",
-    route: "/user",
+    route: "/",
     icon: <User />,
   },
   {
@@ -35,4 +35,11 @@ export const SIDEBAR_MENU_ITEMS: SidebarNavItem[] = [
     route: "/chat",
     icon: <MessageCircle />,
   },
+];
+
+export const LANGUAGE_OPTIONS = [
+  { value: "en-us", label: "English" },
+  { value: "pt-BR", label: "Português (Brasil)" },
+  { value: "es", label: "Español" },
+  { value: "fr", label: "Français" },
 ];

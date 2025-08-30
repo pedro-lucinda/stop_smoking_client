@@ -46,7 +46,7 @@ export default function DiaryEditPopover({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent className="w-[360px] p-4">
+      <PopoverContent side="left" className="w-[360px] p-4 border-green-200">
         <DiaryForm
           date={date}
           onClose={() => setOpen(false)}

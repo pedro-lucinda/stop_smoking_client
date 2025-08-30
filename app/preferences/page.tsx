@@ -9,8 +9,8 @@ export default async function PreferencesPage() {
   const preference = await serverFetch<IPreference>("/preference");
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">Edit preferences</h1>
+    <div className="w-full my-5 flex flex-col p-4  overflow-auto ">
+      <h1 className="text-xl font-bold mb-4 text-center">Edit preferences</h1>
       {!!preference ? (
         <PreferencesForm pref={preference} />
       ) : (

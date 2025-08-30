@@ -5,6 +5,7 @@ import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { LoginButton } from "./login-button";
 
 export function UserButton() {
   const { user } = useUser();
@@ -12,14 +13,7 @@ export function UserButton() {
   return (
     <div className="w-[150px] mt-auto">
       {!user ? (
-        <div className="flex flex-col">
-          <Link
-            href="/auth/login?returnTo=/user"
-            className="p-2 flex items-center gap-2 rounded-sm bg-blue-100 w-[80px] font-bold justify-center text-blue-900"
-          >
-            Login
-          </Link>
-        </div>
+        <LoginButton />
       ) : (
         <Popover>
           <PopoverTrigger className="cursor-pointer">

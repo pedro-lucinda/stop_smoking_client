@@ -76,7 +76,7 @@ export function CravingForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      {err && <p className="text-sm text-red-600">{err}</p>}
+      {err && <p className="text-sm text-destructive">{err}</p>}
 
       <div className="grid gap-1">
         <Label htmlFor="comments">Comments</Label>

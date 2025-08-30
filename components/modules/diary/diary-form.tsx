@@ -144,7 +144,7 @@ export function DiaryForm({
           aria-invalid={!!errors.craving_range}
         />
         {errors.craving_range && (
-          <p className="text-xs text-red-600">{errors.craving_range}</p>
+          <p className="text-xs text-destructive">{errors.craving_range}</p>
         )}
       </div>
 
@@ -161,7 +161,9 @@ export function DiaryForm({
           aria-invalid={!!errors.number_of_cravings}
         />
         {errors.number_of_cravings && (
-          <p className="text-xs text-red-600">{errors.number_of_cravings}</p>
+          <p className="text-xs text-destructive">
+            {errors.number_of_cravings}
+          </p>
         )}
       </div>
 
@@ -188,7 +190,7 @@ export function DiaryForm({
             aria-invalid={!!errors.number_of_cigarets_smoked}
           />
           {errors.number_of_cigarets_smoked && (
-            <p className="text-xs text-red-600">
+            <p className="text-xs text-destructive">
               {errors.number_of_cigarets_smoked}
             </p>
           )}
@@ -204,8 +206,11 @@ export function DiaryForm({
           rows={4}
           required
           aria-invalid={!!errors.notes}
+          className=" overflow-y-auto h-40 resize-none"
         />
-        {errors.notes && <p className="text-xs text-red-600">{errors.notes}</p>}
+        {errors.notes && (
+          <p className="text-xs text-destructive">{errors.notes}</p>
+        )}
       </div>
 
       <div className="flex justify-end gap-2 pt-1">

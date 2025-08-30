@@ -20,9 +20,17 @@ export function ChatInput({
   ...rest
 }: Props) {
   return (
-    <div className=" relative mt-auto px-10">
-      <PromptInput onSubmit={onSubmit} className=" relative " {...rest}>
-        <PromptInputTextarea onChange={onChange} value={value} placeholder="How can I help you stop smoking?"/>
+    <div className=" relative mt-auto w-full  px-10">
+      <PromptInput
+        onSubmit={onSubmit}
+        className=" w-full max-w-full relative "
+        {...rest}
+      >
+        <PromptInputTextarea
+          onChange={onChange}
+          value={value}
+          placeholder="How can I help you stop smoking?"
+        />
         <PromptInputToolbar>
           <PromptInputSubmit
             className="absolute right-1 bottom-1"

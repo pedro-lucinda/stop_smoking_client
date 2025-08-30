@@ -51,7 +51,7 @@ export default function DiaryDeleteDialog({
           <AlertDialogTitle>Delete diary?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. Entry ID {diaryId}.
-            {err && <div className="mt-2 text-red-600 text-xs">{err}</div>}
+            {err && <div className="mt-2 text-destructive text-xs">{err}</div>}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

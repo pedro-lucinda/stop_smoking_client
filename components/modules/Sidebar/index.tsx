@@ -1,5 +1,6 @@
 "use client";
 import { UserButton } from "@/components/elements/user-button";
+import { useUser } from "@auth0/nextjs-auth0";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { useAppStore } from "store/app-store";
@@ -18,11 +19,16 @@ export function Sidebar() {
   const pathname = usePathname();
   const isOpen = useAppStore((s) => s.isSidebarOpen);
   const width = isOpen ? 250 : 110;
+  const { user } = useUser();
 
   return (
     <div
       style={{ width: `${width}px` }}
-      className="flex-none flex flex-col h-full overflow-hidden border-r transition-width duration-700 ease-in-out p-3"
+      className={`${
+        !user
+          ? "hidden"
+          : "flex-none flex flex-col h-full overflow-hidden border-r transition-width duration-700 ease-in-out p-3"
+      }`}
     >
       <SidebarHeader />
       <div className="flex flex-col w-full gap-3">
@@ -32,7 +38,7 @@ export function Sidebar() {
             onClick={() => router.push(i.route)}
             title={i.title}
             icon={i.icon}
-            isSelected={pathname.includes(i.route)}
+            isSelected={pathname === i.route}
             showText={isOpen}
           />
         ))}

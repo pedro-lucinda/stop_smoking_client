@@ -10,5 +10,9 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="p-10 container mx-auto">{children}</main>;
+  return (
+    <main className="p-10 container mx-auto h-screen overflow-y-auto">
+      {children}
+    </main>
+  );
 }

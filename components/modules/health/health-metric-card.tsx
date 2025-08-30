@@ -29,7 +29,7 @@ export function HealthMetricCard({
   return (
     <Card
       className={cn(
-        "flex items-center justify-center p-4 w-[200px] h-[200px]",
+        "flex items-center justify-center p-4 w-[225px] h-[200px]",
         className
       )}
     >
@@ -58,8 +58,7 @@ export function HealthMetricCard({
                 cy={size / 2}
                 r={r}
                 fill="none"
-                stroke="#2da733"
-                className="text-primary"
+                stroke="rgb(34, 197, 94)"
                 strokeWidth={stroke}
                 strokeLinecap="round"
                 strokeDasharray={dashArray}
@@ -69,9 +68,7 @@ export function HealthMetricCard({
           </svg>
 
           <div className="absolute inset-0 grid place-items-center">
-            <p className="text-sm font-bold text-green-700 tabular-nums">
-              {pct}%
-            </p>
+            <p className="text-xs text-primary tabular-nums">{pct}%</p>
           </div>
         </div>
 

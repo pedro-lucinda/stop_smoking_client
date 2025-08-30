@@ -86,9 +86,10 @@ export function HealthMetricsList({ data }: { data: IHealth }) {
   const [displayAll, setDisplayAll] = useState(false);
 
   return (
-    <section className="flex flex-col gap-5 ">
-      <div className="flex flex-wrap justify-center gap-3 mx-auto">
-        {META.slice(0, displayAll ? META.length : 6).map(
+    <section className="flex flex-col gap-5 w-full ">
+      <h3 className="font-bold text-lg">Health Metrics</h3>
+      <div className="flex flex-wrap  gap-3 ">
+        {META.slice(0, displayAll ? META.length : 5).map(
           ({ key, name, desc }) => (
             <HealthMetricCard
               key={key}
@@ -101,8 +102,8 @@ export function HealthMetricsList({ data }: { data: IHealth }) {
       </div>
       <Button
         onClick={() => setDisplayAll(!displayAll)}
-        className="w-20 mx-auto"
-        variant="outline"
+        className="w-20 mx-auto text-green-800 hover:text-green-200 "
+        variant="ghost"
         size="sm"
       >
         {displayAll ? "See Less" : "See More"}

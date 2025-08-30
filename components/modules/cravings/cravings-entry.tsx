@@ -1,16 +1,11 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Flame } from "lucide-react";
 import { apiService } from "services/api";
-import type { ICraving, CravingCreate } from "services/api/types";
-import { CravingForm } from "./craving-form";
+import type { CravingCreate, ICraving } from "services/api/types";
+import { AddCravingModal } from "./add-craving-modal";
+import { CravingCard } from "./craving-card";
+import { NoCraving } from "./no-craving";
 
 type Props = {
   date: string;
@@ -27,9 +22,6 @@ export function CravingsEntry({
   setItems,
   setTotal,
 }: Props) {
-  const [openNew, setOpenNew] = useState(false);
-  const [editing, setEditing] = useState<ICraving | null>(null);
-
   async function handleCreate(payload: CravingCreate) {
     const created = await apiService.createCraving(payload);
     setItems((prev) => [created, ...prev]);
@@ -50,99 +42,35 @@ export function CravingsEntry({
   return (
     <section className="w-full space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">
-          Cravings on {date} ({total})
-        </h3>
-        <Dialog open={openNew} onOpenChange={setOpenNew}>
-          <DialogTrigger asChild>
-            <Button size="sm">Add craving</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>New craving</DialogTitle>
-            </DialogHeader>
-            <CravingForm
-              date={date}
-              onSubmit={async (p) => {
-                await handleCreate(p);
-                setOpenNew(false);
-              }}
-              onCancel={() => setOpenNew(false)}
-            />
-          </DialogContent>
-        </Dialog>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Flame className="w-5 h-5 text-primary" />
+            <h3 className="text-lg font-semibold text-foreground">Cravings</h3>
+          </div>
+          <Badge
+            variant="outline"
+            className="bg-primary/10 text-primary border-primary/30"
+          >
+            {total} entries
+          </Badge>
+        </div>
+        <AddCravingModal date={date} handleCreate={handleCreate} />
       </div>
 
       {items.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          No cravings for this day.
-        </p>
+        <NoCraving />
       ) : (
-        <ul className="divide-y rounded-xl border">
+        <div className="grid gap-3">
           {items.map((c) => (
-            <li
+            <CravingCard
               key={c.id}
-              className="p-3 flex items-start justify-between gap-3"
-            >
-              <div className="space-y-1">
-                <div className="text-sm font-medium">
-                  {c.comments}
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    Desire {c.desire_range ?? 0}/10 · Smoked{" "}
-                    {c.have_smoked ? "yes" : "no"}
-                  </span>
-                </div>
-                <div className="text-xs text-muted-foreground space-x-2">
-                  {c.feeling ? <span>Feeling: {c.feeling}</span> : null}
-                  {c.activity ? <span>Activity: {c.activity}</span> : null}
-                  {c.company ? <span>Company: {c.company}</span> : null}
-                  {typeof c.number_of_cigarets_smoked === "number" ? (
-                    <span>Cigs: {c.number_of_cigarets_smoked}</span>
-                  ) : null}
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Dialog
-                  open={editing?.id === c.id}
-                  onOpenChange={(v) => !v && setEditing(null)}
-                >
-                  <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => setEditing(c)}
-                    >
-                      Edit
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Edit craving</DialogTitle>
-                    </DialogHeader>
-                    {editing && (
-                      <CravingForm
-                        date={date}
-                        initial={editing}
-                        onSubmit={async (p) => {
-                          await handleUpdate(c.id, p);
-                          setEditing(null);
-                        }}
-                        onCancel={() => setEditing(null)}
-                      />
-                    )}
-                  </DialogContent>
-                </Dialog>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => handleDelete(c.id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </li>
+              craving={c}
+              date={date}
+              handleUpdate={handleUpdate}
+              handleDelete={handleDelete}
+            />
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );

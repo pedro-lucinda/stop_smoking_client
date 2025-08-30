@@ -121,21 +121,19 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col gap-5 h-full w-full overflow-hidden">
-      <div className="w-full h-12 rounded-lg bg-gray-200 flex items-center px-10">
+      <div className="w-full h-12 rounded-lg bg-green-950 flex items-center px-10">
         <h3 className="font-bold text-md">Chat</h3>
       </div>
       <MessagesContainer messages={messages} />
-      <div className="px-10 pb-4">
-        <ChatInput
-          value={value}
-          onChange={(e: any) => setValue(e.target.value)}
-          onSubmit={(e?: any) => {
-            e?.preventDefault?.();
-            handleSend();
-          }}
-          disabled={isGenerating}
-        />
-      </div>
+      <ChatInput
+        value={value}
+        onChange={(e: any) => setValue(e.target.value)}
+        onSubmit={(e?: any) => {
+          e?.preventDefault?.();
+          handleSend();
+        }}
+        disabled={isGenerating}
+      />
     </div>
   );
 }

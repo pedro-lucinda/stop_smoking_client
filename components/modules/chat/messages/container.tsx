@@ -6,7 +6,7 @@ import {
 import { Message, MessageContent } from "@/components/ai-elements/message";
 import { Response as AIResponse } from "@/components/ai-elements/response";
 import { ToolCard } from "@/components/modules/chat/tools/tool-card";
-import { ChatMessage } from "app/chat/page";
+import { ChatMessage } from "services/api/types";
 
 interface Props {
   messages: ChatMessage[];
@@ -19,7 +19,7 @@ export function MessagesContainer({ messages }: Props) {
         <ConversationContent>
           {messages?.map((m) => (
             <Message from={m.role} key={m.id}>
-              <MessageContent>
+              <MessageContent className="!text-green-50">
                 {m.role === "assistant" && m.tools?.length ? (
                   <div className="flex flex-col gap-2 mb-2">
                     {m.tools.map((t) => (
@@ -27,7 +27,7 @@ export function MessagesContainer({ messages }: Props) {
                     ))}
                   </div>
                 ) : null}
-                <AIResponse>{m.content}</AIResponse>
+                <AIResponse className="text-green-50">{m.content}</AIResponse>
               </MessageContent>
             </Message>
           ))}
