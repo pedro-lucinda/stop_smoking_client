@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HealthMetricsList } from "@/components/modules/health/health-metrics-list";
 import { Info } from "@/components/modules/home/info";
 import { LoginPage } from "@/components/modules/home/login-page";

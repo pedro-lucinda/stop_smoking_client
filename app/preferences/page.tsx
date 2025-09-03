@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { PreferencesForm } from "@/components/modules/PreferenceForm";
 import { Spinner } from "@/components/ui/kibo-ui/spinner";
 import { serverFetch } from "services/api/server-fetch";
