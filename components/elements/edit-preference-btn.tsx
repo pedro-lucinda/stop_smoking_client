@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 export default function EditPreferenceBtn() {
   return (
-    <Link href="/preferences" className="">
+    <Link href="/preferences" >
       <Button variant="outline" size="sm">
         <Settings2 className="h-4 w-4 mr-2" />
         Edit preferences

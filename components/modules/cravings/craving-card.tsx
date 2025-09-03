@@ -24,7 +24,7 @@ export function CravingCard({
   return (
     <Card
       key={craving.id}
-      className="bg-gradient-to-br from-card to-secondary/30 hover:shadow-lg transition-all duration-300"
+      className="bg-gradient-to-br from-card to-secondary/30 hover:shadow-lg transition-all duration-300 max-w-[350px] w-full"
     >
       <CardContent className="">
         <div className="flex items-start justify-between gap-4">

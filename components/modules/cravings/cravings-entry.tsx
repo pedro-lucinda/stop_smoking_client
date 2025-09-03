@@ -40,8 +40,8 @@ export function CravingsEntry({
   }
 
   return (
-    <section className="w-full space-y-4">
-      <div className="flex items-center justify-between">
+    <section className="w-full gap-5 flex flex-col ">
+      <div className="flex items-center justify-between ">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <Flame className="w-5 h-5 text-primary" />
@@ -60,7 +60,7 @@ export function CravingsEntry({
       {items.length === 0 ? (
         <NoCraving />
       ) : (
-        <div className="grid gap-3">
+        <div className="flex flex-wrap gap-10">
           {items.map((c) => (
             <CravingCard
               key={c.id}

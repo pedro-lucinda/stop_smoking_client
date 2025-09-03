@@ -1,3 +1,4 @@
+import EditPreferenceBtn from "@/components/elements/edit-preference-btn";
 import { Card, CardContent } from "@/components/ui/card";
 import { Target } from "lucide-react";
 
@@ -9,8 +10,21 @@ export function Info({ quitDate }: Props) {
   const calculateDays = () => {
     const quit = new Date(quitDate);
     const today = new Date();
-    const diffTime = Math.abs(today.getTime() - quit.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    // Reset time to start of day for both dates
+    const quitStart = new Date(
+      quit.getFullYear(),
+      quit.getMonth(),
+      quit.getDate()
+    );
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    const diffTime = todayStart.getTime() - quitStart.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
 
@@ -35,6 +49,9 @@ export function Info({ quitDate }: Props) {
             <p className="text-sm text-muted-foreground">Days Smoke-Free</p>
             <span className="text-2xl font-bold text-primary">{days}</span>
           </div>
+        </div>
+        <div className="w-full flex justify-end ">
+          <EditPreferenceBtn />
         </div>
       </CardContent>
     </Card>
