@@ -1,4 +1,4 @@
-import { SidebarNavItem } from "@/components/modules/Sidebar";
+import { INavbarNavItem } from "@/components/modules/Navbar";
 import { Angry, Book, MessageCircle, User } from "lucide-react";
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
@@ -10,30 +10,30 @@ export const TOOL_LABEL: Record<string, string> = {
   tavily_search: "Search",
 };
 
-export const SIDEBAR_MENU_ITEMS: SidebarNavItem[] = [
+export const SIDEBAR_MENU_ITEMS: INavbarNavItem[] = [
   {
     id: 1,
     title: "Home",
     route: "/",
-    icon: <User />,
+    icon: <User className="text-white w-4 h-4" />,
   },
   {
     id: 2,
     title: "Cravings",
     route: "/cravings",
-    icon: <Angry />,
+    icon: <Angry className="text-white w-4 h-4" />,
   },
   {
     id: 3,
     title: "Diary",
     route: "/diary",
-    icon: <Book />,
+    icon: <Book className="text-white w-4 h-4" />,
   },
   {
     id: 4,
     title: "Chat",
     route: "/chat",
-    icon: <MessageCircle />,
+    icon: <MessageCircle className="text-white" />,
   },
 ];
 

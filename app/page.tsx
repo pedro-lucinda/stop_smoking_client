@@ -52,11 +52,6 @@ export default async function Home() {
           <div className="flex flex-col overflow-y-auto gap-5 w-full">
             <Info quitDate={preferences.quit_date} />
             <HealthMetricsList data={health} />
-            {/* <section className="flex gap-2 flex-col justify-between">
-            <h3 className="font-bold text-lg">Badges</h3>
-            <BadgesGrid badges={badgesData.badges} />
-            </section> */}
-
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-lg">Daily Feed</h2>

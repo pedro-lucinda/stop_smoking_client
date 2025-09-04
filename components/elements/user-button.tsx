@@ -11,7 +11,7 @@ export function UserButton() {
   const { user } = useUser();
 
   return (
-    <div className="w-[150px] mt-auto">
+    <>
       {!user ? (
         <LoginButton />
       ) : (
@@ -38,6 +38,6 @@ export function UserButton() {
           </PopoverContent>
         </Popover>
       )}
-    </div>
+    </>
   );
 }

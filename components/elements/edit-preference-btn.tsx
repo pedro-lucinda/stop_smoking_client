@@ -4,10 +4,10 @@ import { Button } from "../ui/button";
 
 export default function EditPreferenceBtn() {
   return (
-    <Link href="/preferences" >
+    <Link href="/preferences">
       <Button variant="outline" size="sm">
-        <Settings2 className="h-4 w-4 mr-2" />
-        Edit preferences
+        <Settings2 className="h-4 w-4 " />
+        Settings
       </Button>
     </Link>
   );

@@ -100,7 +100,7 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-center font-bold text-xl">
-            Your Smoking Cessation Preferences
+            Your Smoking Cessation Settings
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -148,7 +148,6 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
                   handleRemoveGoal={handleRemoveGoal}
                   isLoading={isLoading}
                   index={index}
-                  isCompleted={goal.is_completed}
                 />
               ))}
             </div>
@@ -157,9 +156,18 @@ export function PreferencesForm({ pref }: PreferencesFormProps) {
           {error && <p className="text-sm text-destructive">{error}</p>}
         </CardContent>
         <CardFooter>
-          <div className="flex justify-end">
+          <div className="flex  items-center w-full gap-2">
             <Button type="submit" disabled={isLoading}>
-              Save Preferences {isLoading && <Spinner variant="ring" />}
+              Save Settings {isLoading && <Spinner variant="ring" />}
+            </Button>
+
+            <Button
+              className=""
+              variant="outline"
+              onClick={() => router.push("/")}
+              disabled={isLoading}
+            >
+              Cancel
             </Button>
           </div>
         </CardFooter>

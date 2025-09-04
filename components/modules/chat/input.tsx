@@ -20,7 +20,7 @@ export function ChatInput({
   ...rest
 }: Props) {
   return (
-    <div className=" relative mt-auto w-full  px-10">
+    <div className=" relative mt-auto w-full  ">
       <PromptInput
         onSubmit={onSubmit}
         className=" w-full max-w-full relative "

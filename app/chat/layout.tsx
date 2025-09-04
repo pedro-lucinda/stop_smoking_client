@@ -10,5 +10,9 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="p-10 container mx-auto">{children}</main>;
+  return (
+    <main className="py-2 container mx-auto flex-1 flex flex-col min-h-0">
+      {children}
+    </main>
+  );
 }

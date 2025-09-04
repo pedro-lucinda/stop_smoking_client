@@ -14,6 +14,7 @@ interface Props {
 }
 
 export function MotivationCarousel({ items }: Props) {
+  
   return (
     <Carousel
       opts={{

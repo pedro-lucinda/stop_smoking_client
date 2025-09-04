@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/modules/Sidebar";
+import { Navbar } from "@/components/modules/Navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -14,8 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex h-screen w-full overflow-hidden">
-        <Sidebar />
+      <body className="flex flex-col h-screen w-full overflow-hidden">
+        <Navbar />
         {children}
       </body>
     </html>

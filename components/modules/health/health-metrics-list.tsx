@@ -102,7 +102,7 @@ export function HealthMetricsList({ data }: { data: IHealth }) {
       </div>
       <Button
         onClick={() => setDisplayAll(!displayAll)}
-        className="w-20 mx-auto text-green-800 hover:text-green-200 "
+        className="w-20 mx-auto text-blue-800 hover:text-blue-200 "
         variant="ghost"
         size="sm"
       >

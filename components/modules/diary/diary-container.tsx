@@ -44,7 +44,7 @@ export default function DiaryContainer() {
     <div className="flex flex-col gap-2 w-full h-full ">
       <section className="flex flex-col gap-1">
         <h1 className=" font-bold text-center text-2xl">Diary</h1>
-        <p className="text-center text-sm text-green-100">
+        <p className="text-center text-sm text-blue-900">
           Here you can write your diary entry for the day.
           <br />
           Try to express your thoughts and feelings through the process of stop

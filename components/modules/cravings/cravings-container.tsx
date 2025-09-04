@@ -42,7 +42,7 @@ export default function CravingsContainer() {
       <div className="flex flex-col gap-5 w-full container mx-auto">
         <div className="flex flex-col gap-1">
           <h1 className=" font-bold text-center text-2xl">Cravings</h1>
-          <p className="text-center text-sm text-green-100">
+          <p className="text-center text-sm text-blue-900">
             Here you can track your cravings.
             <br />
             Track your cravings to help you stay on track.
