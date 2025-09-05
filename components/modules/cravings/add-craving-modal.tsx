@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Angry, Plus } from "lucide-react";
 import { useState } from "react";
 import type { CravingCreate } from "services/api/types";
 import { CravingForm } from "./craving-form";
@@ -31,7 +31,10 @@ export function AddCravingModal({ date, handleCreate }: Props) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Craving</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <Angry className=" w-4 h-4" />
+            New Craving
+          </DialogTitle>
         </DialogHeader>
         <CravingForm
           date={date}

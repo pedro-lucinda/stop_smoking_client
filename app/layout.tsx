@@ -1,5 +1,7 @@
+import { PageLoading } from "@/components/elements/loading";
 import { Navbar } from "@/components/modules/Navbar";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +18,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="flex flex-col h-screen w-full overflow-hidden">
         <Navbar />
-        {children}
+        <Suspense fallback={<PageLoading text="Loading application..." />}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );

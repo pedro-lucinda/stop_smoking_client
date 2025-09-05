@@ -1,4 +1,6 @@
+import { PageLoading } from "@/components/elements/loading";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Protected Layout",
@@ -12,7 +14,9 @@ export default function Layout({
 }>) {
   return (
     <main className="p-10 container mx-auto h-screen overflow-y-auto">
-      {children}
+      <Suspense fallback={<PageLoading text="Loading preferences..." />}>
+        {children}
+      </Suspense>
     </main>
   );
 }
