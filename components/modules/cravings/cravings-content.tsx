@@ -24,7 +24,7 @@ export function CravingsContent({ initialDate }: CravingsContentProps) {
       );
       setItems(cravings);
       setTotal(total);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
     }
   }, []);

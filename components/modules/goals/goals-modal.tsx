@@ -187,7 +187,7 @@ export function GoalsModal({
               <div className="text-center py-8">
                 <Target className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-muted-foreground mb-4">
-                  No goals set yet. Click "Add Goal" to get started!
+                  No goals set yet. Click &quot;Add Goal&quot; to get started!
                 </p>
                 <Button onClick={() => setIsAddingGoal(true)}>
                   <Plus className="w-4 h-4 mr-2" />

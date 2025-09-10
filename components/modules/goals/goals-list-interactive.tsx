@@ -202,7 +202,7 @@ export function GoalsListInteractive({
             </div>
           ) : (
             <p className="text-muted-foreground text-center py-4">
-              No goals set yet. Click "Add Goal" to get started!
+              No goals set yet. Click &quot;Add Goal&quot; to get started!
             </p>
           )}
         </CardContent>

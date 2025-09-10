@@ -168,6 +168,19 @@ export class ApiService {
     });
   }
 
+  /** DELETE /api/me/reset */
+  async resetUserData(
+    init?: Omit<RequestInit, "body"> & {
+      signal?: AbortSignal;
+      headers?: Record<string, string>;
+    }
+  ): Promise<void> {
+    return this.request<void>("/api/me/reset", {
+      method: "DELETE",
+      ...(init ?? {}),
+    });
+  }
+
   // ——— Daily Motivation endpoint ——————————————————————————————————
 
   /** GET /api/daily-motivation */
